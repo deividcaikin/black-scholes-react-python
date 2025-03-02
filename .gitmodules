@@ -1,0 +1,3 @@
+[submodule "black-scholes-frontend"]
+	path = black-scholes-frontend
+	url = https://github.com/deividcaikin/black-scholes-react-python
