@@ -27,31 +27,31 @@ def get_db():
         db.close()
 
 class BlackScholesInput(BaseModel):
-    S: float  # Stock price
-    K: float  # Strike price
-    T: float  # Time to expiration (in years)
-    r: float  # Risk-free interest rate
-    sigma: float  # Volatility
-    q: float  # Dividend yield
+    stock_price: float  # Stock price
+    strike_price: float  # Strike price
+    time_expiration: float  # Time to expiration (in years)
+    risk_free_rate: float  # Risk-free interest rate
+    volatility: float  # Volatility
+    dividend_yield: float  # Dividend yield
 
-def black_scholes(S, K, T, r, sigma, q):
-    r = r / 100
-    sigma = sigma / 100
-    q = q / 100
-    d1 = (np.log(S/K) + (r - q + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
-    d2 = d1 - sigma * np.sqrt(T)
-    call_price = S * np.exp(-q * T) * norm.cdf(d1) - K * np.exp(-r * T) * norm.cdf(d2)
-    put_price = K * np.exp(-r * T) * norm.cdf(-d2) - S * np.exp(-q * T) * norm.cdf(-d1)
+def black_scholes(stock_price, strike_price, time_expiration, risk_free_rate, volatility, dividend_yield):
+    risk_free_rate = risk_free_rate / 100
+    volatility = volatility / 100
+    dividend_yield = dividend_yield / 100
+    d1 = (np.log(stock_price/strike_price) + (risk_free_rate - dividend_yield + 0.5 * volatility**2) * time_expiration) / (volatility * np.sqrt(time_expiration))
+    d2 = d1 - volatility * np.sqrt(time_expiration)
+    call_price = stock_price * np.exp(-dividend_yield * time_expiration) * norm.cdf(d1) - strike_price * np.exp(-risk_free_rate * time_expiration) * norm.cdf(d2)
+    put_price = strike_price * np.exp(-risk_free_rate * time_expiration) * norm.cdf(-d2) - stock_price * np.exp(-dividend_yield * time_expiration) * norm.cdf(-d1)
     return call_price, put_price
 
 @app.post("/calculate")
 def calculate_black_scholes(data: BlackScholesInput, db: Session = Depends(get_db)):
-    call, put = black_scholes(data.S, data.K, data.T, data.r, data.sigma, data.q)
+    call, put = black_scholes(data.stock_price, data.strike_price, data.time_expiration, data.risk_free_rate, data.volatility, data.dividend_yield)
     print(Session)
     # Store the calculation in the database
     new_calculation = BlackScholesCalculation(
-        S=data.S, K=data.K, T=data.T, r=data.r,
-        sigma=data.sigma, q=data.q, call_price=call, put_price=put
+        stock_price=data.stock_price, strike_price=data.strike_price, time_expiration=data.time_expiration, risk_free_rate=data.risk_free_rate,
+        volatility=data.volatility, dividend_yield=data.dividend_yield, call_price=call, put_price=put
     )
     db.add(new_calculation)
     db.commit()
@@ -61,5 +61,5 @@ def calculate_black_scholes(data: BlackScholesInput, db: Session = Depends(get_d
 
 @app.get("/calculations")
 def get_all_calculations(db: Session = Depends(get_db)):
-    calculations = db.query(BlackScholesCalculation).all()
+    calculations = db.query(BlackScholesCalculation).order_by(BlackScholesCalculation.date_created.desc()).all()
     return calculations

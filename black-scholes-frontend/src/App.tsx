@@ -3,28 +3,28 @@ import axios from "axios";
 
 const App: React.FC = () => {
     const [input, setInput] = useState({
-        S: 100, K: 100, T: 1, r: 1, sigma: 5, q: 0
+      stock_price: 100, strike_price: 100, time_expiration: 1, risk_free_rate: 1, volatility: 5, dividend_yield: 0
     });
     // S: 100, K: 100, T: 1, r: 0.05, sigma: 0.2, q: 0
     const [result, setResult] = useState<{ call_price: number, put_price: number } | null>(null);
     const [calculations, setCalculations] = useState<any[]>([]); // Stores previous calculations
 
     const MIN_VALUES : { [key in keyof typeof input]: number } = {
-      S: 1, 
-      K: 1, 
-      T: 0, 
-      r: 0, 
-      sigma: 0, 
-      q: 0
+      stock_price: 1, 
+      strike_price: 1, 
+      time_expiration: 0, 
+      risk_free_rate: 0, 
+      volatility: 0, 
+      dividend_yield: 0
     };
   
     const MAX_VALUES : { [key in keyof typeof input]: number } =  {
-        S: 10000, 
-        K: 10000, 
-        T: 5, 
-        r: 10, 
-        sigma: 100, 
-        q: 20
+      stock_price: 10000, 
+      strike_price: 10000, 
+      time_expiration: 5, 
+      risk_free_rate: 10, 
+      volatility: 100, 
+      dividend_yield: 20
     };
 
 
@@ -69,12 +69,12 @@ const App: React.FC = () => {
 
     const handleSetPreviousInputs = (calc: any) => {
       setInput({
-          S: calc.S,
-          K: calc.K,
-          T: calc.T,
-          r: calc.r,
-          sigma: calc.sigma,
-          q: calc.q,
+          stock_price: calc.stock_price,
+          strike_price: calc.strike_price,
+          time_expiration: calc.time_expiration,
+          risk_free_rate: calc.risk_free_rate,
+          volatility: calc.volatility,
+          dividend_yield: calc.dividend_yield,
       });
   };
 
@@ -96,27 +96,27 @@ const App: React.FC = () => {
                     <tbody>
                         <tr>
                             <td style={{ textAlign: 'left'}}><label>Stock Price</label></td>
-                            <td><input name="S" value={input.S} onChange={handleChange} type="number" inputMode="decimal"/></td>
+                            <td><input name="stock_price" value={input.stock_price} onChange={handleChange} type="number" inputMode="decimal"/></td>
                         </tr>
                         <tr>
                             <td style={{ textAlign: 'left'}}><label>Strike Price</label></td>
-                            <td><input name="K" value={input.K} onChange={handleChange} type="number" inputMode="decimal"/></td>
+                            <td><input name="strike_price" value={input.strike_price} onChange={handleChange} type="number" inputMode="decimal"/></td>
                         </tr>
                         <tr>
                             <td style={{ textAlign: 'left'}}><label>Time to Expiration</label></td>
-                            <td><input name="T" value={input.T} onChange={handleChange} type="number" inputMode="decimal"/></td>
+                            <td><input name="time_expiration" value={input.time_expiration} onChange={handleChange} type="number" inputMode="decimal"/></td>
                         </tr>
                         <tr>
                             <td style={{ textAlign: 'left'}}><label>Risk-Free Rate</label></td>
-                            <td><input name="r" value={input.r} onChange={handleChange} type="number" inputMode="decimal"/></td>
+                            <td><input name="risk_free_rate" value={input.risk_free_rate} onChange={handleChange} type="number" inputMode="decimal"/></td>
                         </tr>
                         <tr>
                             <td style={{ textAlign: 'left'}}><label>Volatility</label></td>
-                            <td><input name="sigma" value={input.sigma} onChange={handleChange} type="number" inputMode="decimal"/></td>
+                            <td><input name="volatility" value={input.volatility} onChange={handleChange} type="number" inputMode="decimal"/></td>
                         </tr>
                         <tr>
                             <td style={{ textAlign: 'left'}}><label>Dividend Yield</label></td>
-                            <td><input name="q" value={input.q} onChange={handleChange} type="number" inputMode="decimal"/></td>
+                            <td><input name="dividend_yield" value={input.dividend_yield} onChange={handleChange} type="number" inputMode="decimal"/></td>
                         </tr>
                         <tr>
                             <td colSpan={2}><button onClick={handleSubmit}>Calculate</button></td>
@@ -174,12 +174,12 @@ const App: React.FC = () => {
                                 <td>{calc.id}</td>
                                 <td>{ calc.date_created.split("T")[0]}</td>
                                 <td>{ calc.date_created.split("T")[1].split(".")[0]}</td>
-                                <td>{calc.S}</td>
-                                <td>{calc.K}</td>
-                                <td>{calc.T}</td>
-                                <td>{calc.r}</td>
-                                <td>{calc.sigma}</td>
-                                <td>{calc.q}</td>
+                                <td>{calc.stock_price}</td>
+                                <td>{calc.strike_price}</td>
+                                <td>{calc.time_expiration}</td>
+                                <td>{calc.risk_free_rate}</td>
+                                <td>{calc.volatility}</td>
+                                <td>{calc.dividend_yield}</td>
                                 <td>{calc.call_price.toFixed(2)}</td>
                                 <td>{calc.put_price.toFixed(2)}</td>
                                 <td>
