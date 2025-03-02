@@ -67,6 +67,8 @@ pip install fastapi uvicorn sqlalchemy numpy scipy pydantic
 
 ```sh
 uvicorn main:app --reload
+#If not added to path
+python -m uvicorn main:app --reload
 ```
 
 Your FastAPI server should now be running at `http://127.0.0.1:8000`.
@@ -109,16 +111,20 @@ The `calculations` table stores computed option prices:
 
 ```sql
 CREATE TABLE calculations (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    option_type TEXT,
-    stock_price REAL,
-    strike_price REAL,
-    time_to_expiration REAL,
-    volatility REAL,
-    risk_free_rate REAL,
-    result_price REAL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        id INTEGER NOT NULL,
+        stock_price FLOAT,
+        strike_price FLOAT,
+        time_expiration FLOAT,
+        risk_free_rate FLOAT,
+        volatility FLOAT,
+        dividend_yield FLOAT,
+        call_price FLOAT,
+        put_price FLOAT,
+        date_created DATETIME,
+        PRIMARY KEY (id)
 );
+CREATE INDEX ix_calculations_id ON calculations (id);
+
 ```
 
 ---
