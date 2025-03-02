@@ -146,42 +146,42 @@ const App: React.FC = () => {
                 </th>
               </tr>
               </table>
-              <table style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', maxHeight: '100vh', textAlign: 'center' }}>  
+              <table style={{  display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', maxHeight: '100vh', textAlign: 'center' }}>  
                 <tr>
                 <th style={{width: "33%"}}>
                   <h2>Previous Calculations</h2>
-                    <div style={{ maxHeight: '300px', overflowY: 'auto', width: '100%' }}>
-                        <table style={{border: 1, justifyContent: ""}}>
+                    <div style={{  maxHeight: '300px', overflowY: 'auto', width: '100%' }}>
+                        <table style={{borderCollapse: "collapse", justifyContent: ""}}>
                           <thead>
                             <tr>
-                              <th>ID</th>
-                              <th>Date Created</th>
-                              <th>Time Created</th>
-                              <th>Stock Price (S)</th>
-                              <th>Strike Price (K)</th>
-                              <th>Time to Expiration (T)</th>
-                              <th>Risk-Free Rate (r)</th>
-                              <th>Volatility (σ)</th>
-                              <th>Dividend Yield (q)</th>
-                              <th>Call Price</th>
-                              <th>Put Price</th>
+                              <th style={{ border: "1px solid black"}}>ID</th>
+                              <th style={{ border: "1px solid black"}}>Date Created</th>
+                              <th style={{ border: "1px solid black"}}>Time Created</th>
+                              <th style={{ border: "1px solid black"}}>Stock Price (S)</th>
+                              <th style={{ border: "1px solid black"}}>Strike Price (K)</th>
+                              <th style={{ border: "1px solid black"}}>Time to Expiration (T)</th>
+                              <th style={{ border: "1px solid black"}}>Risk-Free Rate (r)</th>
+                              <th style={{ border: "1px solid black"}}>Volatility (σ)</th>
+                              <th style={{ border: "1px solid black"}}>Dividend Yield (q)</th>
+                              <th style={{ border: "1px solid black"}}>Call Price</th>
+                              <th style={{ border: "1px solid black"}}>Put Price</th>
                               
                             </tr>
                           </thead>
                           <tbody>
                             {calculations.map((calc, index) => (
                               <tr key={index}>
-                                <td>{calc.id}</td>
-                                <td>{ calc.date_created.split("T")[0]}</td>
-                                <td>{ calc.date_created.split("T")[1].split(".")[0]}</td>
-                                <td>{calc.stock_price}</td>
-                                <td>{calc.strike_price}</td>
-                                <td>{calc.time_expiration}</td>
-                                <td>{calc.risk_free_rate}</td>
-                                <td>{calc.volatility}</td>
-                                <td>{calc.dividend_yield}</td>
-                                <td>{calc.call_price.toFixed(2)}</td>
-                                <td>{calc.put_price.toFixed(2)}</td>
+                                <td style={{ border: "1px solid black"}}>{calc.id}</td>
+                                <td style={{ border: "1px solid black"}}>{ calc.date_created.split("T")[0]}</td>
+                                <td style={{ border: "1px solid black"}}>{ calc.date_created.split("T")[1].split(".")[0]}</td>
+                                <td style={{ border: "1px solid black"}}>{calc.stock_price}</td>
+                                <td style={{ border: "1px solid black"}}>{calc.strike_price}</td>
+                                <td style={{ border: "1px solid black"}}>{calc.time_expiration}</td>
+                                <td style={{ border: "1px solid black"}}>{calc.risk_free_rate}</td>
+                                <td style={{ border: "1px solid black"}}>{calc.volatility}</td>
+                                <td style={{ border: "1px solid black"}}>{calc.dividend_yield}</td>
+                                <td style={{ border: "1px solid black"}}>{calc.call_price.toFixed(2)}</td>
+                                <td style={{ border: "1px solid black"}}>{calc.put_price.toFixed(2)}</td>
                                 <td>
                                       <button onClick={() => handleSetPreviousInputs(calc)}>Set as Input</button>
                                   </td>
